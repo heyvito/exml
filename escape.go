@@ -1,4 +1,4 @@
-package xml
+package exml
 
 import (
 	"unicode/utf8"
