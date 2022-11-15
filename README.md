@@ -25,17 +25,19 @@ import (
 )
 
 func main() {
-    doc := exml.Document{
-        ProcessingInstruction: exml.XML10ProcessingInstruction,
-    }
+	doc := exml.Document{
+		ProcessingInstruction: exml.XML10ProcessingInstruction,
+	}
 
-    ns := doc.AddNamespace("foo", "https://tempuri.org")
-    root := exml.MakeNode("root", exml.WithNamespace(ns), exml.WithAttribute("attr", "value"))
-    root.AppendChild("child", exml.WithInnerText("Some value here"))
-    child := root.AppendChild("other-child", exml.WithAttribute("len", "1"))
-    child.AppendChild("other-tag", exml.WithInnerText("More text\nWith line breaks."))
+	ns := doc.AddNamespace("foo", "https://tempuri.org")
+	root := exml.MakeNode("root", exml.WithNamespace(ns), exml.WithAttribute("attr", "value"))
+	doc.SetRoot(root)
 
-    fmt.Println(doc.String())
+	root.AddChild("child", exml.WithInnerText("Some value here"))
+	child := root.AddChild("other-child", exml.WithAttribute("len", "1"))
+	child.AddChild("other-tag", exml.WithInnerText("More text\nWith line breaks."))
+
+	fmt.Println(doc.String())
 }
 ```
 
@@ -43,7 +45,7 @@ The code above will print the following XML document:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<root xmlns:foo="https://tempuri.org">
+<foo:root attr="value" xmlns:foo="https://tempuri.org">
     <child>Some value here</child>
     <other-child len="1">
         <other-tag>
@@ -51,15 +53,13 @@ The code above will print the following XML document:
             With line breaks.
         </other-tag>
     </other-child>
-</root>
+</foo:root>
 ```
 
 ## License
 
 ```
-MIT License
-
-Copyright (c) 2021 Victor Gama de Oliveira
+Copyright (c) 2021, 22 - Victor Gama
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
