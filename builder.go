@@ -111,7 +111,6 @@ func (b *builder) writeNode(indent int, n *Node) {
 	} else {
 		b.writeRune(slash)
 		b.writeRune(tagEnd)
-		return
 	}
 	b.linebreak()
 }
